@@ -1,5 +1,19 @@
 package com.example.pertemuan8.view.uicontroller
 
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
+import com.example.pertemuan8.R
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FormSiswa(
@@ -14,9 +28,14 @@ fun FormSiswa(
     var txtGender by remember { mutableStateOf("")}
     val listData: MutableList<String> = mutableListOf(txtNama,txtGender,txtAlamat)
 
-    Scaffold(modifier = Modifier,
-        { TopAppBar(title = { Text(stringResource(id = R.string.app_name), color = Color.White)},
-            colors = TopAppBarDefaults.mediumTopAppBarColors(colorResource(id = R.color.purple_500)))
+    Scaffold(
+        modifier = Modifier,
+        // PERBAIKAN 1: Tambahkan tulisan topBar =
+        topBar = {
+            TopAppBar(
+                title = { Text(stringResource(id = R.string.app_name), color = Color.White)},
+                colors = TopAppBarDefaults.mediumTopAppBarColors(containerColor = colorResource(id = R.color.purple_500))
+            )
         }
     ) { isiRuang ->
         Column(
@@ -68,25 +87,26 @@ fun FormSiswa(
                 thickness = dimensionResource(R.dimen.thickness_divider),
                 color = Color.Blue
             )
-        }
-        OutlinedTextField(
-            value = txtAlamat,
-            singleLine = true,
-            shape = MaterialTheme.shapes.medium,
-            modifier = Modifier.width(250.dp),
-            label = { Text(text = "Alamat Lengkap") },
-            onValueChange = {
-                txtAlamat = it
+
+            // PERBAIKAN 2: Bagian ini sekarang dimasukkan ke dalam kurung kurawal Column
+            OutlinedTextField(
+                value = txtAlamat,
+                singleLine = true,
+                shape = MaterialTheme.shapes.medium,
+                modifier = Modifier.width(250.dp),
+                label = { Text(text = "Alamat Lengkap") },
+                onValueChange = {
+                    txtAlamat = it
+                }
+            )
+            Spacer(modifier = Modifier.height(20.dp))
+            Button(
+                modifier = Modifier.fillMaxWidth(1f),
+                enabled = txtAlamat.isNotEmpty(),
+                onClick = {onSubmitButtonClicked(listData)}
+            ) {
+                Text(stringResource(R.string.submit))
             }
-        )
-        Spacer(modifier = Modifier.height(20.dp))
-        Button(
-            modifier = Modifier.fillMaxWidth(1f),
-            enabled = txtAlamat.isNotEmpty(),
-            onClick = {onSubmitButtonClicked(listData)}
-        ) {
-            Text(stringResource(R.string.submit))
-        }
+        } // KURUNG PENUTUP COLUMN BERADA DI SINI SEKARANG
     }
-}
 }
