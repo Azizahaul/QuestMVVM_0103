@@ -1,18 +1,17 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
+    id("org.jetbrains.kotlin.android") // Tambahan plugin kotlin standar
 }
 
 android {
     namespace = "com.example.pertemuan8"
-    compileSdk {
-        version = release(37)
-    }
+    compileSdk = 34 // Diperbaiki menjadi standar angka
 
     defaultConfig {
         applicationId = "com.example.pertemuan8"
         minSdk = 24
-        targetSdk = 37
+        targetSdk = 34 // Diperbaiki menjadi standar angka
         versionCode = 1
         versionName = "1.0"
 
@@ -21,10 +20,9 @@ android {
 
     buildTypes {
         release {
-            optimization {
-                enable = true
-                packageScope = setOf("androidx.**", "kotlin.**", "kotlinx.**")
-            }
+            // Diperbaiki menggunakan format standar rilis Android
+            isMinifyEnabled = false
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
     compileOptions {
@@ -45,12 +43,13 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
-    testImplementation(libs.junit)
-// Tambahkan 3 baris ini untuk MVVM dan Navigasi
+
+    // Dependensi MVVM dan Navigasi
     implementation(libs.lifecycle.viewmodel.compose)
     implementation(libs.lifecycle.runtime.compose)
     implementation(libs.navigation.compose)
 
+    testImplementation(libs.junit)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     androidTestImplementation(libs.androidx.espresso.core)
